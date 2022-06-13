@@ -4,6 +4,8 @@ import { useState } from "react";
 import { MainContainer, FormContainer, TitleContainer,
         StyledLabel, StyledInputTwo, StyledButton, StyledP, StyledTextArea} from "../../styles/CreateActivityStyles";
 import {validate} from './Validaciones';
+import PredictiveInput from "./PredictiveInput";
+import { useSelector } from "react-redux";
 
 
 export default function NuevaReceta (){
@@ -11,11 +13,9 @@ export default function NuevaReceta (){
     const [dificulty, setDificulty] = useState("");
     const [duration, setDuration] = useState("");
     const [season, setSeason] = useState("");
-    const [pasoAPaso, setPasoAPaso] = useState("");
     const [tipoDeDieta, setTipoDeDieta] = useState([]);
-    
 
-    const errorMessage = validate(name, dificulty, duration, season, tipoDeDieta, pasoAPaso)
+    const errorMessage = validate(name, dificulty, duration, season)
 
     return(
         <div>
@@ -75,27 +75,9 @@ export default function NuevaReceta (){
                     value = {season}
                     onChange ={ e => setSeason(e.target.value)}></StyledInputTwo></td>
                     </tr>
-                    <br/>
-                    <StyledLabel >Tipos de receta </StyledLabel><br/>
                     <tr>
-                    <td><StyledLabel >gluten free</StyledLabel></td>
-                    <td><StyledInputTwo  type={"checkbox"} value={"gluten free"} onChange={e => setTipoDeDieta(tipoDeDieta =>[...tipoDeDieta, e.target.value])}></StyledInputTwo></td>
-                    <td><StyledLabel >dairy free</StyledLabel></td>
-                    <td><StyledInputTwo  type={"checkbox"} value={"dairy free"} onChange={e => setTipoDeDieta(tipoDeDieta =>[...tipoDeDieta, e.target.value])}></StyledInputTwo></td>
-                    <td><StyledLabel >vegan</StyledLabel></td>
-                    <td><StyledInputTwo type={"checkbox"} value={"vegan"} onChange={e => setTipoDeDieta(tipoDeDieta =>[...tipoDeDieta, e.target.value])}></StyledInputTwo></td>
-                    <td><StyledLabel >fodmap friendly</StyledLabel></td>
-                    <td><StyledInputTwo  type={"checkbox"} value={"fodmap friendly"} onChange={e => setTipoDeDieta(tipoDeDieta =>[...tipoDeDieta, e.target.value])}></StyledInputTwo></td>
-                    </tr>
-                    <tr>
-                    <td><StyledLabel >ketogenic</StyledLabel></td>
-                    <td><StyledInputTwo  type={"checkbox"} value={"ketogenic"} onChange={e => setTipoDeDieta(tipoDeDieta =>[...tipoDeDieta, e.target.value])}></StyledInputTwo></td>
-                    <td><StyledLabel >paleolithic</StyledLabel></td>
-                    <td><StyledInputTwo  type={"checkbox"} value={"paleolithic"} onChange={e => setTipoDeDieta(tipoDeDieta =>[...tipoDeDieta, e.target.value])}></StyledInputTwo></td>
-                    <td><StyledLabel >primal</StyledLabel></td>
-                    <td><StyledInputTwo type={"checkbox"} value={"primal"} onChange={e => setTipoDeDieta(tipoDeDieta =>[...tipoDeDieta, e.target.value])}></StyledInputTwo></td>
-                    <td><StyledLabel >pescatarian</StyledLabel></td>
-                    <td><StyledInputTwo  type={"checkbox"} value={"pescatarian"} onChange={e => setTipoDeDieta(tipoDeDieta =>[...tipoDeDieta, e.target.value])}></StyledInputTwo></td>
+                    <td><StyledLabel >Select Country: </StyledLabel></td>
+                    <td><PredictiveInput></PredictiveInput></td>
                     </tr>
                 <StyledP >{errorMessage}</StyledP>
                 <StyledButton  type="submit" disabled={errorMessage}>Enviar</StyledButton>
