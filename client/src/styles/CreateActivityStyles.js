@@ -30,6 +30,16 @@ border-radius: 15px;
 box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
 padding: 50px;
 `
+export const ListContainer = styled.div`
+grid-area: 2 / 3 / 6 / 4;
+background-color: rgb(166, 166, 166, 0.7);
+border-radius: 15px;
+box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
+text-align: center;
+margin-left: 20px;
+margin-right: 20px;
+color: white;
+`
 
 export const StyledLabel = styled.label`
 color: black;
@@ -45,6 +55,7 @@ export const StyledInputTwo = styled.input`
   background: papayawhip;
   border: none;
   border-radius: 5px;
+  width: 200px;
 `
 
 export const StyledButton = styled.button`

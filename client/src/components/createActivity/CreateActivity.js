@@ -1,21 +1,40 @@
-import React, { createRef } from "react";
+import React from "react";
 import Nav from "../Nav";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MainContainer, FormContainer, TitleContainer,
-        StyledLabel, StyledInputTwo, StyledButton, StyledP, StyledTextArea} from "../../styles/CreateActivityStyles";
+        StyledLabel, StyledInputTwo, StyledButton, StyledP, ListContainer} from "../../styles/CreateActivityStyles";
 import {validate} from './Validaciones';
 import PredictiveInput from "./PredictiveInput";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getCountries } from '../../features/filters/countriesSlice'
 
 
-export default function NuevaReceta (){
+export default function NewActivity (){
     const [name, setName] = useState("")
     const [dificulty, setDificulty] = useState("");
     const [duration, setDuration] = useState("");
     const [season, setSeason] = useState("");
-    const [tipoDeDieta, setTipoDeDieta] = useState([]);
+    const [list, setList] = useState([]);
 
-    const errorMessage = validate(name, dificulty, duration, season)
+    const dispatch = useDispatch();
+
+    const errorMessage = validate(name, dificulty, duration, season);
+    const allCountries = useSelector (state => state.countries.countriesList);
+
+    const callBack = (childData) => {
+        if(list.find(
+            (contry) => 
+            contry.toLowerCase() === childData.toLowerCase())){ 
+                alert("This country already has been added");
+            }
+            else setList([...list, childData])
+    }
+
+    useEffect(()=>{
+    dispatch(getCountries());
+    }, [dispatch])
+
+    console.log(list)
 
     return(
         <div>
@@ -25,17 +44,24 @@ export default function NuevaReceta (){
             <h1>Create your own activity</h1>
             <p></p>
             </TitleContainer>
+            {(()=> {if(list.length>0) return <ListContainer>
+                <ul>
+                    {
+                        list.map(e => <li>{e}</li>)
+                    }
+                </ul>
+            </ListContainer>})()}
             <FormContainer >
                 <form onSubmit={e => {
                 e.preventDefault()
                 validate(name, dificulty, duration, season);
-                let nuevaReceta ={
+                let NewActivity ={
                     name,
                     dificulty,
                     duration,
                     season, 
                 }
-                if(tipoDeDieta.length>=1){}//crear
+                if(list.length>=1){}//crear
             }}>
                     <tr>
                     <td><StyledLabel >Name:</StyledLabel></td>
@@ -77,7 +103,7 @@ export default function NuevaReceta (){
                     </tr>
                     <tr>
                     <td><StyledLabel >Select Country: </StyledLabel></td>
-                    <td><PredictiveInput></PredictiveInput></td>
+                    <td><PredictiveInput suggestions={allCountries} callBack ={callBack}> </PredictiveInput></td>
                     </tr>
                 <StyledP >{errorMessage}</StyledP>
                 <StyledButton  type="submit" disabled={errorMessage}>Enviar</StyledButton>

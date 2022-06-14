@@ -12,7 +12,7 @@ export const countriesSlice = createSlice({
         list:[],
         status: null,
         amount: 0,
-        copyList:[]
+        countriesList:[]
     },
     extraReducers: {
         [getCountries.pending]: (state, action) => {
@@ -22,7 +22,7 @@ export const countriesSlice = createSlice({
             state.status= "succsess"
             state.list = payload
             state.amount = state.list.length
-            state.copyList = payload
+            state.countriesList = payload.map(e => e.name)
         },
         [getCountries.rejected]: (state, action) => {
             state.status = "fail"
